@@ -9,3 +9,4 @@ const app = createApp(App)
 
 app.use(ElementPlus)
 app.mount('#app')
+// 引入 elemgitent-plus 依赖
