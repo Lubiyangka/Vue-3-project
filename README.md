@@ -21,7 +21,14 @@
 ### 安装依赖
 
 ```bash
-npm install
+npm i axios -S
+npm i echarts -S
+npm i dayjs -S
+npm install element-plus --save
+# 自动导入插件
+npm install -D unplugin-vue-components unplugin-auto-import
+npm install moment -S
+npm install mormalize.css -S
 ```
 
 ### 本地开发
