@@ -1,116 +1,107 @@
 <template>
-  <el-container class="layout-container-demo" style="height: 100%; margin-bottom: 0">
-    <el-aside width="200px">
-      <el-scrollbar>
-        <el-menu :default-openeds="['1', '3']">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon>
-                <message/>
-              </el-icon>
-              Navigator One
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="1-1">Option 1</el-menu-item>
-              <el-menu-item index="1-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="1-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title>Option4</template>
-              <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon>
-                <icon-menu/>
-              </el-icon>
-              Navigator Two
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="2-1">Option 1</el-menu-item>
-              <el-menu-item index="2-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="2-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="2-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-sub-menu index="3">
-            <template #title>
-              <el-icon>
-                <setting/>
-              </el-icon>
-              Navigator Three
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="3-1">Option 1</el-menu-item>
-              <el-menu-item index="3-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="3-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="3-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-        </el-menu>
-      </el-scrollbar>
+  <el-container class="layout-container-demo" style="height: 100vh">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <el-menu :default-openeds="['1', '2', '3']" :default-active="ac_index" @select="selectIndex">
+        <el-sub-menu index="1">
+          <template #title>
+            <el-icon>
+              <message/>
+            </el-icon>
+            班级学员管理
+          </template>
+          <el-menu-item index="1-1">班级管理</el-menu-item>
+          <el-menu-item index="1-2">学员管理</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="2">
+          <template #title>
+            <el-icon>
+              <icon-menu/>
+            </el-icon>
+            系统信息管理
+          </template>
+          <el-menu-item index="2-1">部门管理</el-menu-item>
+          <el-menu-item index="2-2">员工管理</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="3">
+          <template #title>
+            <el-icon>
+              <setting/>
+            </el-icon>
+            数据统计管理
+          </template>
+          <el-menu-item index="3-1">员工信息统计</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
     </el-aside>
 
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <div class="toolbar">
-          <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-            >
-              <setting
-              />
-            </el-icon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>View</el-dropdown-item>
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>Tom</span>
+          <el-button-group>
+            <el-button type="success" round>
+              <el-icon>
+                <Edit/>
+              </el-icon>
+              修改密码
+            </el-button>
+            <el-button type="success" round>
+              <el-icon>
+                <SwitchButton/>
+              </el-icon>
+              <el-link href="./">退出登录</el-link>
+            </el-button>
+          </el-button-group>
         </div>
       </el-header>
 
-      <el-main>
-        <el-scrollbar>
-          <el-table :data="tableData">
-            <el-table-column prop="date" label="Date" width="140"/>
-            <el-table-column prop="name" label="Name" width="120"/>
-            <el-table-column prop="address" label="Address"/>
-          </el-table>
-        </el-scrollbar>
+      <el-main style="margin-left: 0.5%">
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {onMounted, reactive, ref} from 'vue'
+import {CirclePlus, Edit, Menu as IconMenu, Message, Setting, SwitchButton} from '@element-plus/icons-vue'
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+const ac_index = ref('1-1')
+
+const selectIndex = (index, path) => {
+  localStorage.setItem('menuId', JSON.stringify(index))
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+onMounted(() => {
+  ac_index.value = JSON.parse(localStorage.getItem('menuId'))
+})
+
+
+const form = reactive({
+  className: '',
+  class: '',
+  dateStart: '',
+  dateEnd: '',
+  teacher: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+const teacher = [
+  {value: 1, name: '鲁望社'},
+  {value: 2, name: '张晓琪'},
+  {value: 3, name: '赵大航'}
+]
+
+const onSubmit = () => {
+  console.log('submit!')
+}
+
+
+const dialogNewClassVisible = ref(false)
+
+
 </script>
 
 <style scoped>
