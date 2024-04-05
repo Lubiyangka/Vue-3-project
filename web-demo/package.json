@@ -7,8 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "core-js": "^3.8.3",
     "element-plus": "^2.6.3",
+    "js-base64": "^3.7.7",
     "unplugin-auto-import": "^0.16.1",
     "unplugin-vue-components": "^0.25.2",
     "vue": "^3.2.13",
