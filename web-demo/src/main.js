@@ -2,6 +2,7 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
 import "./style/headtap.css"
+import "./style/layout.css"
 import urls from "@/api/api";
 import request from "@/api/request";
 
