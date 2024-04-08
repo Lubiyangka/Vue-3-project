@@ -1,7 +1,7 @@
 <template>
   <el-container class="layout-container-demo" style="height: 100vh">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu :default-openeds="['1', '2', '3']" :default-active="ac_index" @select="selectIndex">
+      <el-menu :default-openeds="['1', '2', '3']" :default-active="ac_index" :router="true" @select="selectIndex">
         <el-sub-menu index="1">
           <template #title>
             <el-icon>
@@ -9,8 +9,8 @@
             </el-icon>
             班级学员管理
           </template>
-          <el-menu-item index="1-1">班级管理</el-menu-item>
-          <el-menu-item index="1-2">学员管理</el-menu-item>
+          <el-menu-item index="1-1" route="/class">班级管理</el-menu-item>
+          <el-menu-item index="1-2" route="/student">学员管理</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="2">
           <template #title>
@@ -19,8 +19,8 @@
             </el-icon>
             系统信息管理
           </template>
-          <el-menu-item index="2-1">部门管理</el-menu-item>
-          <el-menu-item index="2-2">员工管理</el-menu-item>
+          <el-menu-item index="2-1" route="/depart">部门管理</el-menu-item>
+          <el-menu-item index="2-2" route="/staff">员工管理</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="3">
           <template #title>
@@ -29,7 +29,7 @@
             </el-icon>
             数据统计管理
           </template>
-          <el-menu-item index="3-1">员工信息统计</el-menu-item>
+          <el-menu-item index="3-1" route="/data">员工信息统计</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-aside>

@@ -167,7 +167,7 @@ const pageSize = ref(100)
       </el-form-item>
     </el-form>
     <div>
-      <el-button type="primary" @click="dialogNewClassVisible = true">
+      <el-button type="primary" @click="dialogNewClassVisible = true" style="margin-bottom: 10px">
         <el-icon>
           <CirclePlus/>
         </el-icon>

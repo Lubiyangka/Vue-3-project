@@ -13,6 +13,7 @@ const form = reactive({
   name: '',
   id: '',
   gender: '',
+  score: '',
 })
 
 const table = [
@@ -35,7 +36,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -44,7 +45,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -53,7 +54,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -62,7 +63,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -71,7 +72,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -80,7 +81,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -89,7 +90,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -98,7 +99,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -107,7 +108,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -116,7 +117,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -125,7 +126,7 @@ const table = [
     highestDegree: '博士',
     breakRuleTime: 1,
     breakRuleSocre: 10,
-  },{
+  }, {
     name: '张三',
     id: '123',
     className: '2024-01-10',
@@ -209,7 +210,7 @@ const pageSize = ref(100)
 <template>
   <div>
     <div class="heading">
-      班级管理
+      学员管理
     </div>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="学员姓名">
@@ -276,8 +277,8 @@ const pageSize = ref(100)
         </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="form.gender" placeholder="请选择">
-            <el-option label="男" value="man" />
-            <el-option label="女" value="woman" />
+            <el-option label="男" value="man"/>
+            <el-option label="女" value="woman"/>
           </el-select>
         </el-form-item>
         <el-form-item label="手机号">
@@ -333,8 +334,8 @@ const pageSize = ref(100)
         </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="form.gender" placeholder="请选择">
-            <el-option label="男" value="man" />
-            <el-option label="女" value="woman" />
+            <el-option label="男" value="man"/>
+            <el-option label="女" value="woman"/>
           </el-select>
         </el-form-item>
         <el-form-item label="手机号">
@@ -387,10 +388,11 @@ const pageSize = ref(100)
         align-center
         destroy-on-close
     >
-      <div class="flex gap-4 mb-4">
-        违纪扣分
-        <el-input v-model="form.name"/>
-      </div>
+      <el-form>
+        <el-form-item label="违纪扣分">
+          <el-input v-model="form.score"/>
+        </el-form-item>
+      </el-form>
 
       <template #footer>
         <div class="dialog-footer">
@@ -485,4 +487,5 @@ const pageSize = ref(100)
 .demo-form-inline .el-select {
   --el-select-width: 220px;
 }
+
 </style>
