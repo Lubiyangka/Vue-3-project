@@ -23,11 +23,6 @@ const routes = [
                 component: () => import(/*webpackChunkName:'Student'*/ '@/views/class/student.vue')
             },
             {
-                path: '/data',
-                name: 'data',
-                component: () => import(/*webpackChunkName:'Data'*/ '@/views/data/data.vue')
-            },
-            {
                 path: '/depart',
                 name: 'depart',
                 component: () => import(/*webpackChunkName:'Depart'*/ '@/views/system/department.vue')
@@ -36,6 +31,16 @@ const routes = [
                 path: '/staff',
                 name: 'staff',
                 component: () => import(/*webpackChunkName:'Class'*/ '@/views/system/staff.vue')
+            },
+            {
+                path: '/staff-data',
+                name: 'staff-data',
+                component: () => import(/*webpackChunkName:'Data'*/ '@/views/data/staffData.vue')
+            },
+            {
+                path: '/student-data',
+                name: 'student-data',
+                component: () => import(/*webpackChunkName:'Data'*/ '@/views/data/studentData.vue')
             }
         ]
     }

@@ -25,11 +25,22 @@
         <el-sub-menu index="3">
           <template #title>
             <el-icon>
+              <icon-menu/>
+            </el-icon>
+            课程教务管理
+          </template>
+          <el-menu-item index="3-1" route="/depart">课程管理</el-menu-item>
+          <el-menu-item index="3-2" route="/staff">课程安排</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="4">
+          <template #title>
+            <el-icon>
               <setting/>
             </el-icon>
             数据统计管理
           </template>
-          <el-menu-item index="3-1" route="/data">员工信息统计</el-menu-item>
+          <el-menu-item index="4-1" route="/staff-data">员工信息统计</el-menu-item>
+          <el-menu-item index="4-2" route="/student-data">学员信息统计</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-aside>
