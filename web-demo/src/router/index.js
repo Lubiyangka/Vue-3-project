@@ -10,7 +10,7 @@ const routes = [
         path: '/index',
         name: 'index',
         component: () => import(/*webpackChunkName:'Index'*/ '@/views/index/index.vue'),
-        // redirect: '/class',
+        redirect: '/class',
         children: [
             {
                 path: '/class',

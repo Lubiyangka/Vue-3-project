@@ -1,13 +1,53 @@
 <script setup>
-import {CirclePlus, Delete} from "@element-plus/icons-vue";
-import {reactive} from "vue";
+import {CirclePlus, Delete, Plus} from "@element-plus/icons-vue";
+import {reactive, ref} from "vue";
+import {ElMessage, UploadProps} from "element-plus";
 
 const formInline = reactive({
   name: '',
   gender: '',
   dateStart: '',
+  dateIn: '',
   dateEnd: '',
 })
+
+const form = reactive({
+  name: '',
+  id: '',
+  gender: '',
+})
+
+const postionValue = ref('')
+const postionOptions = [
+  {
+    value: '班主任',
+    label: '班主任',
+  },
+  {
+    value: '讲师',
+    label: '讲师',
+  },
+  {
+    value: '学工主管',
+    label: '学工主管',
+  },
+  {
+    value: '教研主管',
+    label: '教研主管',
+  },
+]
+
+const departmentValue = ref('')
+const departmentOptions = [
+  {
+    value: '教研部',
+    label: '教研部',
+  },
+  {
+    value: '学工部',
+    label: '学工部',
+  },
+]
 
 const table = [
   {
@@ -69,9 +109,40 @@ const table = [
 
 ]
 
+const dialogNewStaffVisible = ref(false)
+const dialogDeleteStaffVisible = ref(false)
+const dialogEditStaffVisible = ref(false)
+const dialogDealVisible = ref(false)
+const dialogPathDeleteStaffVisible = ref(false)
+
 const onSubmit = () => {
   console.log('submit!')
 }
+const currentPage = ref(4)
+const pageSize = ref(100)
+// >上传照片<
+
+const imageUrl = ref('')
+
+// const handleAvatarSuccess: UploadProps['onSuccess'] = (
+//     response,
+//     uploadFile
+// ) => {
+//   imageUrl.value = URL.createObjectURL(uploadFile.raw)
+// }
+//
+// const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+//   if (rawFile.type !== 'image/jpeg') {
+//     ElMessage.error('Avatar picture must be JPG format!')
+//     return false
+//   } else if (rawFile.size / 1024 / 1024 > 2) {
+//     ElMessage.error('Avatar picture size can not exceed 2MB!')
+//     return false
+//   }
+//   return true
+// }
+
+// <上传照片>
 </script>
 
 <template>
@@ -111,13 +182,13 @@ const onSubmit = () => {
     </el-form>
     <div>
       <el-button-group>
-        <el-button type="primary" @click="dialogNewStudentVisible = true" style="margin-bottom: 10px">
+        <el-button type="primary" @click="dialogNewStaffVisible = true" style="margin-bottom: 10px">
           <el-icon>
             <CirclePlus/>
           </el-icon>
           新增员工
         </el-button>
-        <el-button type="primary" @click="dialogPathDeleteStudentVisible = true" style="margin-bottom: 10px">
+        <el-button type="primary" @click="dialogPathDeleteStaffVisible = true" style="margin-bottom: 10px">
           <el-icon>
             <Delete/>
           </el-icon>
@@ -125,13 +196,13 @@ const onSubmit = () => {
         </el-button>
       </el-button-group>
     </div>
-    <el-dialog title="添加学员" v-model="dialogNewStudentVisible" destroy-on-close>
+    <el-dialog title="新增员工" v-model="dialogNewStaffVisible" destroy-on-close>
       <el-form :model="form" label-width="auto" style="max-width: 600px">
-        <el-form-item label="姓名" prop="className">
-          <el-input v-model="form.name" placeholder="请输入姓名"/>
+        <el-form-item label="用户名" prop="id">
+          <el-input v-model="form.id" placeholder="请输入用户名，2-20字符，不可重复"/>
         </el-form-item>
-        <el-form-item label="学号">
-          <el-input v-model="form.id" placeholder="请输入学号"/>
+        <el-form-item label="员工姓名">
+          <el-input v-model="form.name" placeholder="请输入员工姓名，2-10个字"/>
         </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="form.gender" placeholder="请选择">
@@ -139,31 +210,49 @@ const onSubmit = () => {
             <el-option label="女" value="woman"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="form.phone" placeholder="请输入手机号"/>
+        <el-form-item label="入职日期">
+          <el-date-picker
+              v-model="formInline.dateIn"
+              type="date"
+              placeholder="选择日期"
+              clearable
+              style="width: 100%;"
+          />
         </el-form-item>
-        <el-form-item label="最高学历">
+        <el-form-item label="职位">
           <el-select
-              v-model="highestDegreeValue"
-              placeholder="Select"
+              v-model="postionValue"
+              placeholder="请选择"
               style="width: 100%"
           >
             <el-option
-                v-for="item in highestDegreeOptions"
+                v-for="item in postionOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="所属班级">
+        <el-form-item label="照片">
+          <el-upload
+              class="avatar-uploader"
+              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="归属部门">
           <el-select
-              v-model="classNameValue"
-              placeholder="Select"
+              v-model="departmentValue"
+              placeholder="请选择"
               style="width: 100%"
           >
             <el-option
-                v-for="item in classNameOptions"
+                v-for="item in departmentOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -174,7 +263,7 @@ const onSubmit = () => {
           <el-button type="primary"
                      @click="evt => {
             console.log('create')
-            dialogNewStudentVisible = false
+            dialogNewStaffVisible = false
           }">
             保存
           </el-button>
@@ -182,7 +271,7 @@ const onSubmit = () => {
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑学员" v-model="dialogEditStudentVisible" destroy-on-close>
+    <el-dialog title="编辑学员" v-model="dialogEditStaffVisible" destroy-on-close>
       <el-form :model="form" label-width="auto" style="max-width: 600px">
         <el-form-item label="姓名" prop="className">
           <el-input v-model="form.name" placeholder="请输入姓名"/>
@@ -231,7 +320,7 @@ const onSubmit = () => {
           <el-button type="primary"
                      @click="evt => {
             console.log('create')
-            dialogNewStudentVisible = false
+            dialogNewStaffVisible = false
           }">
             保存
           </el-button>
@@ -264,7 +353,7 @@ const onSubmit = () => {
       </template>
     </el-dialog>
     <el-dialog
-        v-model="dialogDeleteStudentVisible"
+        v-model="dialogDeleteStaffVisible"
         title="删除学员"
         width="500"
         align-center
@@ -273,10 +362,10 @@ const onSubmit = () => {
       <span>您确定要删除该学员的信息吗 ?</span>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="dialogDeleteStudentVisible = false">
+          <el-button type="primary" @click="dialogDeleteStaffVisible = false">
             确定
           </el-button>
-          <el-button @click="dialogDeleteStudentVisible = false">
+          <el-button @click="dialogDeleteStaffVisible = false">
             取消
           </el-button>
         </div>
@@ -288,12 +377,6 @@ const onSubmit = () => {
                 :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ 'text-align': 'center' }"
                 size="large" stripe border>
-        name: '张三',
-        pic: '###',
-        gender: '男',
-        position: '班主任',
-        dateStart: '2020-02-02',
-        dateEnd: '2022-03-03',
         <el-table-column type="index" label="序号" width="100"/>
         <el-table-column prop="name" label="姓名"/>
         <el-table-column prop="pic" label="图像"/>
@@ -303,10 +386,10 @@ const onSubmit = () => {
         <el-table-column prop="dateEnd" label="最后操作时间"/>
         <el-table-column fixed="right" label="操作">
           <template #default>
-            <el-button link type="primary" size="small" @click="dialogEditStudentVisible = true">
+            <el-button link type="primary" size="small" @click="dialogEditStaffVisible = true">
               编辑
             </el-button>
-            <el-button link type="primary" size="small" @click="dialogDeleteStudentVisible = true">
+            <el-button link type="primary" size="small" @click="dialogDeleteStaffVisible = true">
               删除
             </el-button>
           </template>
@@ -337,5 +420,34 @@ const onSubmit = () => {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 15px;
+}
+
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>

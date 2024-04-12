@@ -165,7 +165,6 @@ const highestDegreeOptions = [
     value: '博士',
     label: '博士',
   },
-
 ]
 
 const classNameValue = ref('')
